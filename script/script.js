@@ -12,7 +12,7 @@ const showPhone = (phones, isShowAll) =>{
   phoneContainer.textContent = ''
 // hide show all button if item are less then 12
 const showAllButton = document.getElementById('show-all-button')
-if(phones.length > 12){
+if(phones.length > 12 && !isShowAll){
   showAllButton.classList.remove('hidden')
 }
 else{
@@ -34,10 +34,10 @@ else{
     </figure>
     <div class="card-body items-center text-center">
       <h2 class="card-title font-bold">${phone.phone_name}</h2>
-      <p>${phone.slug}</p>
+      <p></p>
       <h3 class="text-2xl font-extrabold">$999</h3>
       <div class="card-actions">
-        <a href="" class="px-6 py-3 w-fit text-white font-bold bg-[#0D6EFD] rounded-xl">Show Details</a>
+        <a onclick="showDetails('${phone.slug}')" class="px-6 py-3 w-fit text-white font-bold bg-[#0D6EFD] cursor-pointer rounded-xl">Show Details</a>
       </div>
     </div>
     
@@ -68,4 +68,10 @@ const handleLoader = (isLoading) =>{
 // show all item after clicking show all button
 const showAll = () =>{
   buttonHandler(true);
+}
+// show details of phone
+const showDetails = async (id) =>{
+  const res = await fetch(`https://openapi.programming-hero.com/api/phone/${id}`)
+  const data = await res.json();
+ 
 }
