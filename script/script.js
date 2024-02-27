@@ -1,12 +1,12 @@
 
-const loadPhone = async (searchText) =>{
+const loadPhone = async (searchText, isShowAll) =>{
   const res = await fetch(`https://openapi.programming-hero.com/api/phones?search=${searchText}`)
   const data = await res.json()
   const phone = data.data
-  showPhone(phone)
+  showPhone(phone, isShowAll)
 }
 
-const showPhone = phones =>{
+const showPhone = (phones, isShowAll) =>{
   const phoneContainer = document.getElementById('phone-container')
   // clear photo container before show new element
   phoneContainer.textContent = ''
@@ -18,11 +18,13 @@ if(phones.length > 12){
 else{
   showAllButton.classList.add('hidden')
 }
+
   // show only 12 phone at once
-  phones = phones.slice(0,12);
+  if(!isShowAll){
+    phones = phones.slice(0,12);
+  }
   // get one by one phone
   phones.forEach(phone =>{
-    console.log(phone)
     const phoneDetails = document.createElement('div')
     phoneDetails.classList = `card bg-base-100 border-2`;
     phoneDetails.innerHTML= `
@@ -47,11 +49,11 @@ else{
 }
 
 // search button handler
-const buttonHandler = () =>{
+const buttonHandler = (isShowAll) =>{
   handleLoader(true);
  const searchField = document.getElementById("search-bar")
  const searchText = searchField.value;
- loadPhone(searchText)
+ loadPhone(searchText, isShowAll)
 }
 // showing spinner and disappear loader
 const handleLoader = (isLoading) =>{
@@ -62,4 +64,8 @@ const handleLoader = (isLoading) =>{
   else{
     loader.classList.add('hidden')
   }
+}
+// show all item after clicking show all button
+const showAll = () =>{
+  buttonHandler(true);
 }
