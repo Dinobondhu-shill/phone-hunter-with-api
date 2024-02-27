@@ -43,11 +43,23 @@ else{
     phoneContainer.appendChild(phoneDetails)
 
   });
+  handleLoader(false)
 }
 
 // search button handler
 const buttonHandler = () =>{
+  handleLoader(true);
  const searchField = document.getElementById("search-bar")
  const searchText = searchField.value;
  loadPhone(searchText)
+}
+// showing spinner and disappear loader
+const handleLoader = (isLoading) =>{
+  const loader = document.getElementById('loader')
+  if(isLoading){
+    loader.classList.remove('hidden')
+  }
+  else{
+    loader.classList.add('hidden')
+  }
 }
