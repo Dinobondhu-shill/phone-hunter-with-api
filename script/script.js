@@ -1,5 +1,5 @@
 
-const loadPhone = async (searchText, isShowAll) =>{
+const loadPhone = async (searchText='13', isShowAll) =>{
   const res = await fetch(`https://openapi.programming-hero.com/api/phones?search=${searchText}`)
   const data = await res.json()
   const phone = data.data
@@ -68,10 +68,39 @@ const handleLoader = (isLoading) =>{
 // show all item after clicking show all button
 const showAll = () =>{
   buttonHandler(true);
+  
 }
 // show details of phone
 const showDetails = async (id) =>{
   const res = await fetch(`https://openapi.programming-hero.com/api/phone/${id}`)
   const data = await res.json();
- 
+ console.log(data)
+ showDetailsOfPhone(data)
 }
+
+const showDetailsOfPhone =(phone) =>{
+  my_modal_5.showModal()
+  const modal = document.getElementById('modal-details')
+  modal.innerHTML =`
+  <div>
+      <img src="${phone?.data?.image}" class ="mx-auto">
+    <h3 class="font-bold text-lg">${phone?.data?.name}</h3>
+    <p class="py-1">Press ESC key or click the button below to close</p>
+    <h2><span class="font-bold text-[18px] mr-3">Storage :</span>${phone?.data?.mainFeatures?.storage}</h2>
+    <h2><span class="font-bold text-[18px] mr-3">Display Size :</span>${phone?.data?.mainFeatures?.displaySize}</h2>
+    <h2><span class="font-bold text-[18px] mr-3">Chipset :</span>${phone?.data?.mainFeatures?.chipSet}</h2>
+    <h2><span class="font-bold text-[18px] mr-3">Memory :</span>${phone?.data?.mainFeatures?.memory}</h2>
+    <h2><span class="font-bold text-[18px] mr-3">Slug :</span>${phone?.data?.slug}</h2>
+    <h2><span class="font-bold text-[18px] mr-3">Release data :</span>${phone?.data?.releaseDate}</h2>
+    <h2><span class="font-bold text-[18px] mr-3">Brand : </span>${phone?.data?.brand}</h2>
+    </div>
+    <div class="modal-action">
+      <form method="dialog">
+        <!-- if there is a button in form, it will close the modal -->
+        <button class="btn">Close</button>
+      </form>
+    </div>
+  
+  `
+}
+loadPhone()
